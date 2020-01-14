@@ -11,12 +11,4 @@ def get_mail_config():
         "sender": "hanbinjls@163.com",
         "receivers": ""
     }
-    # mysql = {
-    #     "host": "127.0.0.1",
-    #     "port": 3306,
-    #     "db": "python",
-    #     "user": "python",
-    #     "passwd": "python",
-    #     "charset": "utf8mb4"
-    # }
     return mail
