@@ -6,18 +6,21 @@ from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from configs.mail import *
 from configs import globaldata
+import datetime
+import time
 
 
 def send_mail(file_path):
     config = get_mail_config()
     # receivers = [receiver]  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+    content = globaldata.name + ' - ' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + " - 导出数据"
     message = MIMEMultipart()
     message['From'] = 'hanbinjls@163.com'
-    message['To'] = "接收结果邮箱"
-    subject = '发送导出结果'
+    message['To'] = "接收数据导出结果"
+    subject = content
     message['Subject'] = Header(subject, 'utf-8')
     # 邮件正文内容
-    message.attach(MIMEText('发送导出结果', 'plain', 'utf-8'))
+    message.attach(MIMEText(content, 'plain', 'utf-8'))
     # 构造附件1，传送当前目录下的 test.txt 文件
     att1 = MIMEText(open(file_path, 'rb').read(), 'base64', 'utf-8')
     att1["Content-Type"] = 'application/octet-stream'

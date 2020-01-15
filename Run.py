@@ -32,13 +32,14 @@ from lib.Replace import *
 
 def run_task(task):
     with DB('local') as db:
-        db.execute("SELECT id,`type`,execlTitle,`sql`,`email` FROM tasks where id = %s" % task)
+        db.execute("SELECT id, `name`,`type`,execlTitle,`sql`,`email` FROM tasks where id = %s" % task)
         data = db.fetchone()
         with REDIS() as redis_con:
-            is_success = redis_con.hmset("tasks", data)
+            # is_success = redis_con.hmset("tasks", data)
             sql = urllib.parse.unquote(data["sql"], encoding="utf-8", errors='replace')
             sql = replace(sql)
             globaldata.receivers = data["email"].split(",")
+            globaldata.name = data["name"]
             excelTitle = data['execlTitle'].split(",")
             with DB("maowanapi") as maowanapi:
                 maowanapi.execute(sql)
